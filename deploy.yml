@@ -1,0 +1,43 @@
+---
+- hosts: all
+  vars:
+    ansible_become: true
+    ansible_become_user: root
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+  - name: Copy {{ github_sha }} docker image
+    copy:
+      src: "{{ github_sha }}.tar"
+      dest: "/tmp/{{ github_sha }}.tar"
+  - name: Load {{ github_repository_name }} docker image
+    docker_image:
+      source: load
+      force_source: true
+      name: "{{ github_repository_name }}"
+      load_path: /tmp/{{ github_sha }}.tar
+  - name: Start {{ github_repository_name }} docker container
+    docker_container:
+      state: started
+      image: "{{ github_repository_name }}"
+      name: "{{ github_repository_name }}"
+      hostname: "{{ github_repository_name }}"
+      restart: true
+      restart_policy: unless-stopped
+      purge_networks: true
+      networks_cli_compatible: no
+      networks:
+        - name: traefik
+      exposed_ports:
+        - "80"
+      env:
+        SLACK_TOKEN: "{{ slack_token }}"
+        SLACK_SECRET: "{{ slack_secret }}"
+      labels:
+        traefik.enable: 'true'
+        traefik.http.routers.slack-codin-gg.rule: Host(`{{ github_repository_name }}`)
+        traefik.http.routers.slack-codin-gg.entrypoints: https
+        traefik.http.services.slack-codin-gg.loadbalancer.server.port: "80"
+        traefik.http.routers.slack-codin-gg.tls: 'true'
+        traefik.http.routers.slack-codin-gg.tls.certresolver: le-dns-namecheap
+        traefik.http.routers.slack-codin-gg.tls.domains[0].main: "{{ github_repository_name }}"
+        traefik.http.routers.slack-codin-gg.tls.domains[0].sans: "*.{{ github_repository_name }}"
