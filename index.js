@@ -16,8 +16,10 @@ return express()
     console.log(`${process.env.npm_package_name} listening at http://localhost:${80}`)
   })
 
-async function handleMessage({ bot_profile, channel, text, subtype }) {
+async function handleMessage({ bot_profile, channel, text, subtype, thread_ts }) {
   if (bot_profile || subtype) return
+  
+  if (thread_ts) return
 
   const token = process.env.npm_config_slack_token
   const { data: { choices: [{ text: answer }] } } = await openai.createCompletion("text-davinci-001", {
