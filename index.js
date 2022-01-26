@@ -3,6 +3,9 @@ const express = require('express')
 const { WebClient, LogLevel: { DEBUG } } = require('@slack/web-api')
 const { createEventAdapter } = require('@slack/events-api')
 
+console.log('npm_config_slack_token:', process.env.npm_config_slack_token)
+console.log('npm_config_slack_secret:', process.env.npm_config_slack_secret)
+
 const events = createEventAdapter(process.env.npm_config_slack_secret)
 const client = new WebClient(process.env.npm_config_slack_token, { logLevel: DEBUG })
 

@@ -9,9 +9,8 @@ jobs:
     steps:
     - uses: c-hive/gha-remove-artifacts@v1
       with:
-        age: '60 minutes'
+        age: '0 minutes'
         skip-recent: 1 # KEEP ONE FOR ROLLBACK
-
   build-docker:
     runs-on: ubuntu-latest
     needs: prune-artifacts
@@ -25,8 +24,6 @@ jobs:
       with:
         name: build-docker@${{ github.sha }}
         path: ${{ github.sha }}.tar
-
-
   deploy-ansibile:
     needs: build-docker
     runs-on: ubuntu-latest
