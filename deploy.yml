@@ -32,6 +32,7 @@
       env:
         SLACK_TOKEN: "{{ slack_token }}"
         SLACK_SECRET: "{{ slack_secret }}"
+        OPENAI_SECRET: "{{ openai_secret }}"
       labels:
         traefik.enable: 'true'
         traefik.http.routers.slack-codin-gg.rule: Host(`{{ github_repository_name }}`)

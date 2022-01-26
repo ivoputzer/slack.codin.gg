@@ -6,7 +6,6 @@
   "main": "index.js",
   "scripts": {
     "dev": "node-dev index.js",
-    "ngrok": "ngrok http 80",
     "start": "node index.js",
     "test": "node test/index.js"
   },
@@ -15,6 +14,10 @@
   "dependencies": {
     "@slack/events-api": "^3.0.1",
     "@slack/web-api": "^6.6.0",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "openai": "^2.0.2"
+  },
+  "devDependencies": {
+    "node-dev": "^7.1.0"
   }
 }

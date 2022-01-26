@@ -13,5 +13,4 @@ RUN npm install --no-optional --no-progress\
 COPY ./ ./
 EXPOSE 80
 
-ENTRYPOINT ["npm"]
-CMD ["start", "--slack-token=$SLACK_TOKEN", "--slack-secret=$SLACK_SECRET"]
+CMD npm start --slack-token=$SLACK_TOKEN --slack-secret=$SLACK_SECRET --openai-secret=$OPENAI_SECRET
