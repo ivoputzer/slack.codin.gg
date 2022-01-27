@@ -3,7 +3,7 @@ const { App, LogLevel } = require('@slack/bolt')
 
 const configuration = new Configuration({ apiKey: process.env.npm_config_openai_secret })
 const ai = new OpenAIApi(configuration)
-const app = new App({ signingSecret: process.env.npm_config_slack_secret, token: process.env.npm_config_slack_token, logLevel: LogLevel.DEBUG })
+const app = new App({ signingSecret: process.env.npm_config_slack_secret, token: process.env.npm_config_slack_token, logLevel: LogLevel.DEBUG, port: 80 })
 
 app.message(withFilter, async ({ message, say }) => {
   console.log('app.message', message)
@@ -18,7 +18,7 @@ app.message(withFilter, async ({ message, say }) => {
 
   ; (async () => {
     try {
-      await app.start(80)
+      await app.start()
       console.log(`app.start ⚡️ https://${process.env.npm_package_name}:${80}`)
     } catch (error) {
       console.error('app.start', error)
