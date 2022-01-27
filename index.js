@@ -17,9 +17,13 @@ app.message(withFilter, async ({ message, say }) => {
 })
 
   ; (async () => {
-    await app.start(80)
-    console.log(`app.start ⚡️ https://${process.env.npm_package_name}:${80}`)
-  })
+    try {
+      await app.start(80)
+      console.log(`app.start ⚡️ https://${process.env.npm_package_name}:${80}`)
+    } catch (error) {
+      console.error('app.start', error)
+    }
+  })()
 
 async function withFilter({ message: { bot_profile, subtype, thread_ts }, next }) {
   if (bot_profile || subtype || thread_ts) return
