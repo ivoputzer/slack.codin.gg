@@ -1,24 +1,18 @@
 {
-  "name": "codin-bot",
+  "name": "slack.codin.gg",
   "version": "1.0.0-beta.0",
   "private": true,
-  "description": "This is a simple slack implementation for gpt3",
+  "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
+  "description": "This is a simple slack app/bot that makes use of gpt3 🤣",
   "main": "index.js",
   "scripts": {
     "prompt": "node openai.js",
     "start": "node index.js",
     "test": "node test/index.js"
   },
-  "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
   "license": "MIT",
   "dependencies": {
-    "@slack/events-api": "^3.0.1",
-    "@slack/web-api": "^6.6.0",
-    "express": "^4.17.2",
     "@slack/bolt": "^3.9.0",
     "openai": "^2.0.2"
-  },
-  "devDependencies": {
-    "node-dev": "^7.1.0"
   }
 }

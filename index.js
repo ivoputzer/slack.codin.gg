@@ -1,35 +1,19 @@
-const express = require('express')
 const { Configuration, OpenAIApi } = require('openai')
-const { WebClient, LogLevel: { DEBUG } } = require('@slack/web-api')
-const { createEventAdapter } = require('@slack/events-api')
+const { App, LogLevel } = require('@slack/bolt')
 
-const events = createEventAdapter(process.env.npm_config_slack_secret)
-const client = new WebClient(process.env.npm_config_slack_token, { logLevel: DEBUG })
 const configuration = new Configuration({ apiKey: process.env.npm_config_openai_secret })
-const openai = new OpenAIApi(configuration)
+const ai = new OpenAIApi(configuration)
+const app = new App({ signingSecret: process.env.npm_config_slack_secret, token: process.env.npm_config_slack_token, logLevel: LogLevel.DEBUG })
+const messages = []
 
-events.on('message', handleMessage)
+  ; (async (bolt) => {
+    bolt.message(onMessage)
+    await bolt.start(80)
+    console.log(`⚡️ Bolt is available at https://${process.env.npm_package_name}:${80}`)
+  })(app)
 
-return express()
-  .use('/', events.expressMiddleware())
-  .listen(80, () => {
-    console.log(`${process.env.npm_package_name} listening at http://localhost:${80}`)
-  })
-
-async function handleMessage({ bot_profile, channel, text, subtype, thread_ts }) {
-  if (bot_profile || subtype) return
-  
-  if (thread_ts) return
-
-  const token = process.env.npm_config_slack_token
-  const { data: { choices: [{ text: answer }] } } = await openai.createCompletion("text-davinci-001", {
-    prompt: text.replace(/(<([^>]+)>)/ig, ""),
-    temperature: 0.25,
-    max_tokens: 480,
-    top_p: 1,
-    frequency_penalty: 0,
-    presence_penalty: 0,
-  })
-
-  client.chat.postMessage({ channel, token, text: answer.trimStart() })
+async function onMessage({ message, say }) {
+  console.debug(message)
+  const { data: { choices: [{ text: answer }] } } = await ai.createCompletion('text-davinci-001', { prompt: message.text, temperature: 0.25, max_tokens: 480, top_p: 1, frequency_penalty: 0, presence_penalty: 0 })
+  await say(answer.trimStart())
 }
