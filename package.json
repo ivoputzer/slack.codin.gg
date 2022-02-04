@@ -5,6 +5,9 @@
   "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
   "description": "This is a simple slack app/bot that makes use of gpt3 🤣",
   "main": "index.js",
+  "bin": {
+    "ai": "./openai.js"
+  },
   "scripts": {
     "prompt": "node openai.js",
     "start": "node index.js",

@@ -29,6 +29,16 @@ npm run prompt --openai_secret=<open-ai-secret>
 npm run prompt --openai_secret=<open-ai-secret> -- --tts
 ```
 
+
+## install `ai` command
+
+To have a global `ai` command available to interact with OpenAI, do the following (to be improved with npm install -g)
+
+1. `gh repo clone ivoputzer/slack.codin.gg`
+2. `cd slack.codin.gg`
+3. Run `npm i -g .` to install the `ai` command globally
+4. Run `ai` and you'll be presented an interactive CLI to interact with OpenAI 
+
 ## Contribute
 Fork the repo open PR and get in touch 📬
 

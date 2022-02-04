@@ -1,14 +1,14 @@
+#!/usr/bin/env node
+
 const { EOL } = require('os')
 const { Configuration, OpenAIApi } = require('openai')
 const { createInterface } = require('readline')
 const say = require('say')
 const cld = require('cld')
-const configuration = new Configuration({ apiKey: process.env.npm_config_openai_secret })
+const configuration = new Configuration({ apiKey: process.env.npm_config_openai_secret || process.env.OPENAI_API_KEY })
 const ai = new OpenAIApi(configuration)
 const rl = createInterface({ input: process.stdin, output: process.stdout })
 const lang = require('./lang.json')
-
-console.log(process.argv,)
 
 setImmediate(function qa(ai, rl) {
   rl.question('> ', async (prompt) => {
