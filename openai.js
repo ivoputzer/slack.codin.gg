@@ -8,8 +8,6 @@ const ai = new OpenAIApi(configuration)
 const rl = createInterface({ input: process.stdin, output: process.stdout })
 const lang = require('./lang.json')
 
-console.log(process.argv,)
-
 setImmediate(function qa(ai, rl) {
   rl.question('> ', async (prompt) => {
     const { data: { choices: [{ text: answer }] } } = await ai.createCompletion('text-davinci-001', { prompt, temperature: 0.25, max_tokens: 480, top_p: 1, frequency_penalty: 0, presence_penalty: 0 })
