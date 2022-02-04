@@ -37,7 +37,8 @@ To have a global `ai` command available to interact with OpenAI, do the followin
 1. `gh repo clone ivoputzer/slack.codin.gg`
 2. `cd slack.codin.gg`
 3. Run `npm i -g .` to install the `ai` command globally
-4. Run `ai` and you'll be presented an interactive CLI to interact with OpenAI 
+4. To run the command `ai` from anywhere, setup the environment variable `OPENAI_API_KEY`
+5. Run `ai` and you'll be presented an interactive CLI to interact with OpenAI 
 
 ## Contribute
 Fork the repo open PR and get in touch 📬
