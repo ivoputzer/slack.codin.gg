@@ -14,5 +14,9 @@
   "dependencies": {
     "@slack/bolt": "^3.9.0",
     "openai": "^2.0.2"
+  },
+  "devDependencies": {
+    "cld": "^2.7.1",
+    "say": "^0.16.0"
   }
 }

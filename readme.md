@@ -24,6 +24,11 @@ npm run prompt
 npm run prompt --openai_secret=<open-ai-secret>
 ```
 
+**Run prompt with text to speech**
+```
+npm run prompt --openai_secret=<open-ai-secret> -- --tts
+```
+
 ## Contribute
 Fork the repo open PR and get in touch 📬
 
