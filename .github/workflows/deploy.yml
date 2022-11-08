@@ -1,4 +1,15 @@
+# secrets.ansible_ssh_key
+# secrets.slack_token
+# secrets.slack_secret
+# secrets.openai_secret
+# secrets.ansible_user
 name: Deploy
+on:
+  workflow_run:
+    workflows: ["Lint"]
+    types: [requested]
+    branches:
+      - 'master'
 on:
   push:
     branches: [master]
