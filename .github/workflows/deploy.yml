@@ -34,8 +34,12 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: build@${{ github.sha }}
-    - run: |
+    - env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
         ssh-add - <<< "${{ secrets.ansible_ssh_key }}"
         ssh-add -l
-    - run: make deploy tag=${{ github.event.repository.name }} sha=${{ github.sha }} slack_token=${{ secrets.slack_token }} slack_secret=${{ secrets.slack_secret }} openai_secret=${{ secrets.openai_secret }}
+    - env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: make deploy tag=${{ github.event.repository.name }} sha=${{ github.sha }} slack_token=${{ secrets.slack_token }} slack_secret=${{ secrets.slack_secret }} openai_secret=${{ secrets.openai_secret }}
