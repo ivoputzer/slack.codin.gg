@@ -19,7 +19,7 @@ jobs:
       with:
         ref: refs/heads/master
     - run: make build tag=${{ github.event.repository.name }}
-    - run: make build tag=${{ github.event.repository.name }} sha=${{ github.sha }}
+    - run: make save tag=${{ github.event.repository.name }} sha=${{ github.sha }}
     - uses: actions/upload-artifact@v2
       with:
         name: build@${{ github.sha }}
