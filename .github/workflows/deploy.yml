@@ -7,7 +7,7 @@ name: Deploy
 on:
   workflow_run:
     workflows: ["Lint"]
-    types: [requested]
+    types: [completed]
     branches: [master]
 # on:
 #   push:
