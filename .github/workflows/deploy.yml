@@ -8,11 +8,10 @@ on:
   workflow_run:
     workflows: ["Lint"]
     types: [requested]
-    branches:
-      - 'master'
-on:
-  push:
     branches: [master]
+# on:
+#   push:
+#     branches: [master]
 jobs:
   clean:
     runs-on: ubuntu-latest
