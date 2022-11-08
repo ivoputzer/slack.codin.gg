@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-    - uses: c-hive/gha-remove-artifacts@v1
+    - uses: c-hive/gha-remove-artifacts@v1.2.0
       with:
         age: '0 minutes'
         skip-recent: 2 # KEEP PREVIOUS FOR ROLLBACK
