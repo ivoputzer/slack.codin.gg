@@ -1,5 +1,6 @@
 ---
 - hosts: "{{ github_repository_name }}"
+  become: yes
   gather_facts: no
   vars:
     ansible_python_interpreter: /usr/bin/python3
