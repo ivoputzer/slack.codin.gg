@@ -9,8 +9,8 @@
     "ai": "./openai.js"
   },
   "scripts": {
-    "prompt": "node openai.js",
     "start": "node index.js",
+    "prompt": "node openai.js",
     "test": "node test/index.js"
   },
   "license": "MIT",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "cld": "^2.7.1",
-    "say": "^0.16.0"
+    "say": "^0.16.0",
+    "standard": "^17.0.0"
   }
 }

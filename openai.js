@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 
-const { EOL } = require('os')
 const { createInterface } = require('readline')
 const { Configuration, OpenAIApi } = require('openai')
 const say = require('say')
 const cld = require('cld')
-const { promisify } = require('util')
 const { parse: parseArgs } = require('m.args')
 const configuration = new Configuration({ apiKey: process.env.npm_config_openai_secret || process.env.OPENAI_API_KEY })
 const ai = new OpenAIApi(configuration)
 const rl = createInterface({ input: process.stdin, output: process.stdout })
 
-setImmediate(function next(ai, rl, { argv }) {
+setImmediate(function next (ai, rl, { argv }) {
+  // eslint-disable-next-line camelcase
   const { temperature = 0.25, max_tokens = 1536, top_p = 1, frequency_penalty = 0, presence_penalty = 0 } = parseArgs(argv)
   rl.question('> ', async (prompt) => {
     try {
+      // eslint-disable-next-line camelcase
       const { data: { choices: [{ text: answer }] } } = await ai.createCompletion('text-davinci-001', { prompt, temperature, max_tokens, top_p, frequency_penalty, presence_penalty })
       rl.write(`${answer.trimStart()}\n`)
       if (argv.includes('--tts')) {
