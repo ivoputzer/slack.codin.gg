@@ -28,6 +28,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: refs/heads/master
     - uses: actions/download-artifact@v3
       with:
         name: docker@${{ github.sha }}
