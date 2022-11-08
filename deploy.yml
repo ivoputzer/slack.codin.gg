@@ -1,22 +1,22 @@
 ---
-- hosts: all
+- hosts: "{{ github_repository_name }}"
+  gather_facts: no
   vars:
-    ansible_become: true
-    ansible_become_user: root
     ansible_python_interpreter: /usr/bin/python3
   tasks:
-  - name: Copy {{ github_sha }} docker image
-    copy:
+  - name: Copy {{ github_sha }}.tar docker image source
+    ansible.builtin.copy:
       src: "{{ github_sha }}.tar"
       dest: "/tmp/{{ github_sha }}.tar"
+      force: no
   - name: Load {{ github_repository_name }} docker image
-    docker_image:
+    community.general.docker_image:
       source: load
       force_source: true
       name: "{{ github_repository_name }}"
       load_path: /tmp/{{ github_sha }}.tar
   - name: Start {{ github_repository_name }} docker container
-    docker_container:
+    community.general.docker_container:
       state: started
       image: "{{ github_repository_name }}"
       name: "{{ github_repository_name }}"
