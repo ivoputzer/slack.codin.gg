@@ -1,3 +1,4 @@
+const { createReadStream } = require('fs')
 const { Configuration, OpenAIApi } = require('openai')
 const { App, LogLevel } = require('@slack/bolt')
 
@@ -5,7 +6,38 @@ const configuration = new Configuration({ apiKey: process.env.npm_config_openai_
 const ai = new OpenAIApi(configuration)
 const app = new App({ signingSecret: process.env.npm_config_slack_secret, token: process.env.npm_config_slack_token, logLevel: LogLevel.DEBUG, port: 80 })
 
-app.message(withFilter, async ({ message, say }) => {
+app.message(createImage, async ({ message, say }) => {
+  try {
+    const { data: { data: [{ url }] } } = await ai.createImage({
+      prompt: message.text.replace(/^!ima?ge?/i, '').trimStart(),
+      n: 1,
+      size: '512x512'
+    })
+    await say(url)
+  } catch (error) {
+    console.error('app.message', error)
+    await say(`Sorry @<${message.user}>! I got this error: ${error.message}`)
+  }
+})
+
+app.message(createImageEdit, async ({ message, say }) => {
+  try {
+    console.log('app.message', message)
+    const { data: { data: [{ url }] } } = await ai.createImageEdit(
+      createReadStream('codin.2.png'),
+      createReadStream('codin.2.mask.png'),
+      message.text.replace(/^!nft/i, '').trimStart(),
+      1,
+      '512x512'
+    )
+    await say(url)
+  } catch (error) {
+    console.error('app.message', error)
+    await say(`Sorry @<${message.user}>! I got this error: ${error.message}`)
+  }
+})
+
+app.message(createCompletion, async ({ message, say }) => {
   try {
     console.log('app.message', message)
     const { data: { choices: [{ text: answer }] } } = await ai.createCompletion({
@@ -35,10 +67,28 @@ app.message(withFilter, async ({ message, say }) => {
 })()
 
 // eslint-disable-next-line camelcase
-async function withFilter ({ message: { bot_profile, subtype, thread_ts, text }, next }) {
+async function createCompletion ({ message: { bot_profile, subtype, thread_ts, text }, next }) {
   // eslint-disable-next-line camelcase
   console.log('withFilter', { bot_profile, subtype, thread_ts, text })
   // eslint-disable-next-line camelcase
   if (bot_profile || subtype || thread_ts) return
+  await next()
+}
+
+// eslint-disable-next-line camelcase
+async function createImageEdit ({ message: { bot_profile, subtype, thread_ts, text }, next }) {
+  // eslint-disable-next-line camelcase
+  console.log('withFilter', { bot_profile, subtype, thread_ts, text })
+  // eslint-disable-next-line camelcase
+  if (bot_profile || subtype || thread_ts || !text.startsWith('!nft')) return
+  await next()
+}
+
+// eslint-disable-next-line camelcase
+async function createImage ({ message: { bot_profile, subtype, thread_ts, text }, next }) {
+  // eslint-disable-next-line camelcase
+  console.log('withFilter', { bot_profile, subtype, thread_ts, text })
+  // eslint-disable-next-line camelcase
+  if (bot_profile || subtype || thread_ts || !text.startsWith('!img')) return
   await next()
 }
