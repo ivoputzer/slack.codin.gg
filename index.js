@@ -9,7 +9,6 @@ const app = new App({ signingSecret: process.env.npm_config_slack_secret, token:
 app.message(createImage, async ({ message, say }) => {
   try {
     console.log('app.message', message)
-    await rtm.sendTyping(message.channel)
     const { data: { data: [{ url }] } } = await ai.createImage({
       prompt: message.text.replace(/!ima?ge?\s*/i, String.prototype),
       n: 1,
@@ -26,7 +25,6 @@ app.message(createImage, async ({ message, say }) => {
 app.message(createImageEdit, async ({ message, say }) => {
   try {
     console.log('app.message', message)
-    await rtm.sendTyping(message.channel)
     const { data: { data: [{ url }] } } = await ai.createImageEdit(
       createReadStream('codin.2.png'),
       createReadStream('codin.2.mask.png'),
@@ -45,7 +43,6 @@ app.message(createImageEdit, async ({ message, say }) => {
 app.message(createCompletion, async ({ message, say }) => {
   try {
     console.log('app.message', message)
-    await rtm.sendTyping(message.channel)
     const { data: { choices: [{ text: answer }] } } = await ai.createCompletion({
       model: 'text-davinci-003',
       prompt: message.text,
@@ -66,7 +63,6 @@ app.message(createCompletion, async ({ message, say }) => {
 ; (async () => {
   try {
     await app.start()
-    await rtm.start()
     console.log(`app.start ⚡️ https://${process.env.npm_package_name}:${80}`)
   } catch (error) {
     console.error('app.start', error)
