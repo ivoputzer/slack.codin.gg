@@ -1,12 +1,10 @@
 const { createReadStream } = require('fs')
 const { Configuration, OpenAIApi } = require('openai')
 const { App, LogLevel } = require('@slack/bolt')
-const { RTMClient } = require('@slack/rtm-api')
 
 const configuration = new Configuration({ apiKey: process.env.npm_config_openai_secret })
 const ai = new OpenAIApi(configuration)
 const app = new App({ signingSecret: process.env.npm_config_slack_secret, token: process.env.npm_config_slack_token, logLevel: LogLevel.DEBUG, port: 80 })
-const rtm = new RTMClient(process.env.npm_config_slack_rtm_token)
 
 app.message(createImage, async ({ message, say }) => {
   try {

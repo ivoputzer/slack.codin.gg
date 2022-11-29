@@ -51,4 +51,4 @@ jobs:
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
         ansible-galaxy collection install community.general
-        ansible-playbook --extra-vars="github_sha=${{ github.sha }} github_repository_name=${{ github.event.repository.name }} slack_token=${{ secrets.slack_token }} slack_secret=${{ secrets.slack_secret }} slack_rtm_token=${{ secrets.slack_rtm_token }} openai_secret=${{ secrets.openai_secret }}" --user=${{ secrets.ansible_user }} --inventory ${{ github.event.repository.name }}, deploy.yml
+        ansible-playbook --extra-vars="github_sha=${{ github.sha }} github_repository_name=${{ github.event.repository.name }} slack_token=${{ secrets.slack_token }} slack_secret=${{ secrets.slack_secret }} openai_secret=${{ secrets.openai_secret }}" --user=${{ secrets.ansible_user }} --inventory ${{ github.event.repository.name }}, deploy.yml
