@@ -17,7 +17,7 @@
   "dependencies": {
     "@slack/bolt": "^3.9.0",
     "m.args": "^0.0.1",
-    "openai": "^2.0.2"
+    "openai": "^3.1.0"
   },
   "devDependencies": {
     "cld": "^2.7.1",

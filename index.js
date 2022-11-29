@@ -6,9 +6,11 @@ const ai = new OpenAIApi(configuration)
 const app = new App({ signingSecret: process.env.npm_config_slack_secret, token: process.env.npm_config_slack_token, logLevel: LogLevel.DEBUG, port: 80 })
 
 app.message(withFilter, async ({ message, say }) => {
-  console.log('app.message', message)
   try {
-    const { data: { choices: [{ text: answer }] } } = await ai.createCompletion('text-davinci-001', { prompt: message.text, temperature: 0.25, max_tokens: 480, top_p: 1, frequency_penalty: 0, presence_penalty: 0 })
+    console.log('app.message', message)
+    const { data: { choices: [{ text: answer }] } } = await ai.createCompletion('text-davinci-003', { prompt: message.text, temperature: 0.25, max_tokens: 480, top_p: 1, frequency_penalty: 0, presence_penalty: 0 })
+    console.log('ai.createCompletion()', message)
+     { prompt: message.text, temperature: 0.25, max_tokens: 480, top_p: 1, frequency_penalty: 0, presence_penalty: 0 })
     await say(answer.trimStart())
   } catch (error) {
     console.error('app.message', error)
