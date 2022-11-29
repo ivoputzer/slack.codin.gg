@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@slack/bolt": "^3.9.0",
+    "@slack/rtm-api": "^6.0.0",
     "m.args": "^0.0.1",
     "openai": "^3.1.0"
   },
