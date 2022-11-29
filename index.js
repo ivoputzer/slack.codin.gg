@@ -26,7 +26,7 @@ app.message(createImageEdit, async ({ message, say }) => {
   try {
     console.log('app.message', message)
     const { data: { data: [{ url }] } } = await ai.createImageEdit(
-      createReadStream('codin.2.png'),
+      createReadStream('codin.2.jpg'),
       createReadStream('codin.2.mask.png'),
       message.text.replace(/!nft\s*/i, String.prototype),
       1,
