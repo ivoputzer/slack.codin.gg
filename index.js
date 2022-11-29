@@ -35,7 +35,9 @@ app.message(withFilter, async ({ message, say }) => {
 })()
 
 // eslint-disable-next-line camelcase
-async function withFilter ({ message: { bot_profile, subtype, thread_ts }, next }) {
+async function withFilter ({ message: { bot_profile, subtype, thread_ts, text }, next }) {
+  // eslint-disable-next-line camelcase
+  console.log('withFilter', { bot_profile, subtype, thread_ts, text })
   // eslint-disable-next-line camelcase
   if (bot_profile || subtype || thread_ts) return
   await next()
