@@ -10,7 +10,6 @@ app.message(withFilter, async ({ message, say }) => {
     console.log('app.message', message)
     const { data: { choices: [{ text: answer }] } } = await ai.createCompletion('text-davinci-003', { prompt: message.text, temperature: 0.25, max_tokens: 480, top_p: 1, frequency_penalty: 0, presence_penalty: 0 })
     console.log('ai.createCompletion', answer)
-     { prompt: message.text, temperature: 0.25, max_tokens: 480, top_p: 1, frequency_penalty: 0, presence_penalty: 0 })
     await say(answer.trimStart())
   } catch (error) {
     console.error('app.message', error)
