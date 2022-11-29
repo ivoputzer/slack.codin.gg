@@ -10,11 +10,14 @@ const rtm = new RTMClient(process.env.npm_config_slack_rtm_token)
 
 app.message(createImage, async ({ message, say }) => {
   try {
+    console.log('app.message', message)
+    await rtm.sendTyping(message.channel)
     const { data: { data: [{ url }] } } = await ai.createImage({
       prompt: message.text.replace(/!ima?ge?\s*/i, String.prototype),
       n: 1,
       size: '512x512'
     })
+    console.log('ai.createImage', url)
     await say(url)
   } catch (error) {
     console.error('app.message', error)
@@ -25,6 +28,7 @@ app.message(createImage, async ({ message, say }) => {
 app.message(createImageEdit, async ({ message, say }) => {
   try {
     console.log('app.message', message)
+    await rtm.sendTyping(message.channel)
     const { data: { data: [{ url }] } } = await ai.createImageEdit(
       createReadStream('codin.2.png'),
       createReadStream('codin.2.mask.png'),
@@ -32,6 +36,7 @@ app.message(createImageEdit, async ({ message, say }) => {
       1,
       '512x512'
     )
+    console.log('ai.createImageEdit', url)
     await say(url)
   } catch (error) {
     console.error('app.message', error)
@@ -42,6 +47,7 @@ app.message(createImageEdit, async ({ message, say }) => {
 app.message(createCompletion, async ({ message, say }) => {
   try {
     console.log('app.message', message)
+    await rtm.sendTyping(message.channel)
     const { data: { choices: [{ text: answer }] } } = await ai.createCompletion({
       model: 'text-davinci-003',
       prompt: message.text,
@@ -62,6 +68,7 @@ app.message(createCompletion, async ({ message, say }) => {
 ; (async () => {
   try {
     await app.start()
+    await rtm.start()
     console.log(`app.start ⚡️ https://${process.env.npm_package_name}:${80}`)
   } catch (error) {
     console.error('app.start', error)
