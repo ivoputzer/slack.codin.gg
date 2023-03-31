@@ -41,3 +41,10 @@ app.message(
     }
   }
 )
+
+try {
+  await app.start()
+  console.log(`app.start ⚡️ https://${process.env.npm_package_name}:${80}`)
+} catch (error) {
+  console.error('app.start', error)
+}
