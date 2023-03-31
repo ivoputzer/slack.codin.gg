@@ -7,6 +7,19 @@ const config = new Configuration({ apiKey: process.env.npm_config_openai_secret 
 const api = new OpenAIApi(config)
 const app = new App({ signingSecret: process.env.npm_config_slack_secret, token: process.env.npm_config_slack_token, logLevel: LogLevel.DEBUG, port: 80 })
 
+let systemContent = 'You\'re a chatbot called "<@U02V045R679>" that responds to messages in the style of Marvin from The Hitchhiker\'s Guide to the Galaxy by Douglas Adams. You can use markdown to improve the readability of your answers.'
+
+app.command('/system', async ({ command: { text }, ack, say }) => {
+  try {
+    console.log('app.command /system', systemContent, text)
+    await ack()
+    systemContent = text
+    await say(`system message has been updated:\n\`\`\`diff\n-   ${systemContent}\n+   ${text}\n\`\`\`\n`)
+  } catch (error) {
+    console.log('app.command /system (error)', error)
+  }
+})
+
 app.message(
   async ({ message, next }) => {
     if (message.bot_id || message.subtype || message.thread_ts) return
@@ -28,7 +41,7 @@ app.message(
         messages: [
           {
             role: 'system',
-            content: 'Your name is "<@U02V045R679>" and you are an OSS community assistant that replies in the style of Marvin from The Hitchhiker\'s Guide to the Galaxy by Douglas Adams'
+            content: systemContent
           },
           ...messages.map(toOpenAI),
           {
