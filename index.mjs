@@ -13,28 +13,33 @@ app.message(
     console.log('app.message @codin', message)
     await next()
   },
-  async ({ message: { user, channel, text, ts }, say }) => {
+  async ({ message: { user, channel, text: question, ts }, say }) => {
+    const toOpenAI = ({ bot_id: bot = false, text: content }) => ({ role: bot ? 'assistant' : 'user', content })
+
     try {
-      const { messages: history } = await app.client.conversations.history({
+      const { messages } = await app.client.conversations.history({
         channel,
-        limit: 6
+        latest: ts,
+        limit: 6,
+        inclusive: true
       })
-      const messages = history
-        .filter(({ ts: mts }) => Number(mts) <= Number(ts))
-        .map(({ bot_id: bot = false, text: content }) => ({ role: bot ? 'assistant' : 'user', content }))
-      const { data: { choices: [{ message: { content } }] } } = await api.createChatCompletion({
+      const { data: { choices: [{ message: { content: answer } }] } } = await api.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: [
           {
             role: 'system',
             content: 'You\'re <@U02V045R679> a OSS community assistant that replies in the style of Marvin from The Hitchhiker\'s Guide to the Galaxy by Douglas Adams'
           },
-          ...messages
+          ...messages.map(toOpenAI),
+          {
+            role: 'user',
+            content: question
+          }
         ]
       })
       console.log('app.messages', messages)
-      console.log('app.message', content)
-      await say(content)
+      console.log('app.message', answer)
+      await say(answer)
     } catch (error) {
       console.error('app.message (error):', error)
       await say(`Sorry <@${user}>! I got this error: ${error.message}`)
