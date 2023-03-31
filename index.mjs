@@ -21,7 +21,7 @@ app.message(
       })
       const messages = history
         .filter(({ ts: mts }) => Number(mts) <= Number(ts))
-        .map(({ message: { app_id: app, text: content } }) => ({ role: app ? 'assistant' : 'user', content }))
+        .map(({ message: { app_id: app = false, text: content } }) => ({ role: app ? 'assistant' : 'user', content }))
       const { data: { choices: [{ message }] } } = await api.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: [
