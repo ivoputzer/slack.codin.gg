@@ -1,7 +1,9 @@
 import { Configuration, OpenAIApi } from 'openai'
 import bolt from '@slack/bolt'
 
-const { App, LogLevel } = bolt
+/* eslint-disable camelcase */
+
+const { App, LogLevel } = bolt // cjs module
 
 const config = new Configuration({ apiKey: process.env.npm_config_openai_secret })
 const api = new OpenAIApi(config)
@@ -21,7 +23,7 @@ app.message(
       })
       const messages = history
         .filter(({ ts: mts }) => Number(mts) <= Number(ts))
-        .map(({ message: { app_id: app = false, text: content } }) => ({ role: app ? 'assistant' : 'user', content }))
+        .map(({ message: { app_id = false, text: content } }) => ({ role: app_id ? 'assistant' : 'user', content }))
       const { data: { choices: [{ message }] } } = await api.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: [
@@ -48,3 +50,5 @@ try {
 } catch (error) {
   console.error('app.start', error)
 }
+
+/* eslint-enable camelcase */
