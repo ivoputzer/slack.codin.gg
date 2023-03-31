@@ -28,7 +28,7 @@ app.message(
         messages: [
           {
             role: 'system',
-            content: 'You\'re <@U02V045R679> a OSS community assistant that replies in the style of Marvin from The Hitchhiker\'s Guide to the Galaxy by Douglas Adams'
+            content: 'Your name is "<@U02V045R679>" and you are an OSS community assistant that replies in the style of Marvin from The Hitchhiker\'s Guide to the Galaxy by Douglas Adams'
           },
           ...messages.map(toOpenAI),
           {
