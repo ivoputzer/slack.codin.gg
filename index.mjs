@@ -17,7 +17,7 @@ app.message(
     try {
       const { messages: history } = await app.client.conversations.history({
         channel,
-        limit: 5
+        limit: 6
       })
       const messages = history
         .filter(({ ts: mts }) => Number(mts) <= Number(ts))
