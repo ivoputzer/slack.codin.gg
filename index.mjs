@@ -39,7 +39,7 @@ app.message(
       await say(message)
     } catch (error) {
       console.error('app.message (error):', error)
-      await say(`Sorry @<${user}>! I got this error: ${error.message}`)
+      await say(`Sorry <@${user}>! I got this error: ${error.message}`)
     }
   }
 )
