@@ -22,7 +22,7 @@ app.message(
       const messages = history
         .filter(({ ts: mts }) => Number(mts) <= Number(ts))
         .map(({ bot_id: bot = false, text: content }) => ({ role: bot ? 'assistant' : 'user', content }))
-      const { data: { choices: [{ message }] } } = await api.createChatCompletion({
+      const { data: { choices: [{ message: { content } }] } } = await api.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: [
           {
@@ -33,8 +33,8 @@ app.message(
         ]
       })
       console.log('app.messages', messages)
-      console.log('app.message', message)
-      await say(message)
+      console.log('app.message', content)
+      await say(content)
     } catch (error) {
       console.error('app.message (error):', error)
       await say(`Sorry <@${user}>! I got this error: ${error.message}`)
