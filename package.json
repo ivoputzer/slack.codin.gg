@@ -5,19 +5,26 @@
   "author": "Ivo von Putzer Reibegg <ivo.putzer@gmail.com> (https://github.com/ivoputzer)",
   "description": "This is a simple slack app/bot that makes use of gpt3 🤣",
   "main": "index.js",
+  "config": {
+    "chat": {
+      "throttle": 5
+    }
+  },
   "bin": {
     "ai": "./openai.js"
   },
   "scripts": {
-    "start": "node index.js",
     "prompt": "node openai.js",
-    "test": "node test/index.js"
+    "legacy": "node index.js",
+    "test": "node test/index.js",
+    "chat": "node --experimental-modules bin/chat.mjs",
+    "start": "node --experimental-modules index.mjs"
   },
   "license": "MIT",
   "dependencies": {
     "@slack/bolt": "^3.9.0",
     "m.args": "^0.0.1",
-    "openai": "^3.1.0"
+    "openai": "^3.2.1"
   },
   "devDependencies": {
     "cld": "^2.7.1",
